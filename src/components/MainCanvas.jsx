@@ -4,12 +4,18 @@ import { Canvas } from '@react-three/fiber';
 import { Color } from 'three';
 import { Meshes } from './Meshes';
 import { Lights } from './Lights';
-
+import * as THREE from 'three';
+import { Controls } from './Controls';
+import { GLBModel } from './GLBModel';
+import { Dancer } from './Dancer';
+import { PostProcessor } from './PostProcessor';
+import { Physics } from '@react-three/cannon';
 export const MainCanvas = () => {
   return (
     <Canvas
       gl={{ antialias: true }}
       shadows={'soft'}
+      // shadows
       camera={{
         fov: 60,
         aspect: window.innerWidth / window.innerHeight,
@@ -19,10 +25,20 @@ export const MainCanvas = () => {
       }}
       scene={{ background: new Color(0x00000) }}
     >
-      <OrbitControls />
-
-      <Lights />
-      <Meshes />
+      <Physics
+        gravity={[0, -9, 0]}
+        defaultContactMaterial={{
+          restitution: 0.1,
+          friction: 1,
+        }}
+      >
+        <Lights />
+        <Meshes />
+      </Physics>
+      <Controls />
+      {/* <Dancer /> */}
+      {/* <PostProcessor /> */}
+      {/* <GLBModel /> */}
     </Canvas>
   );
 };
